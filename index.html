@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Helmy Card - بوتا الفاخر</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap');
         
         :root {
-            --primary: #ff0000; /* أحمر ناري */
-            --secondary: #8b0000; /* أحمر داكن */
-            --bg: #050505; 
-            --card-bg: rgba(10, 10, 10, 0.95);
+            --primary: #ff1f1f;
+            --secondary: #800000;
+            --bg: #050505;
+            --card-bg: rgba(15, 15, 15, 0.98);
             --accent-red: #ff4757;
-            --success: #2ed573;
+            --success: #00ff88;
         }
 
         body {
             font-family: 'Tajawal', sans-serif;
-            background: radial-gradient(circle at center, #1a0000 0%, #050505 100%);
-            color: #f1f5f9;
+            background: radial-gradient(circle at center, #1a0505 0%, #050505 100%);
+            color: #ffffff;
             margin: 0;
             display: flex; align-items: center; justify-content: center;
             min-height: 100vh; padding: 15px;
@@ -27,52 +27,55 @@
 
         .container {
             width: 100%; max-width: 450px;
-            background: var(--card-bg); backdrop-filter: blur(20px);
-            border: 2px solid #330000; border-radius: 30px;
-            padding: 30px; box-shadow: 0 0 30px rgba(255, 0, 0, 0.15);
+            background: var(--card-bg); 
+            border: 2px solid #2a0000; border-radius: 35px;
+            padding: 35px; box-shadow: 0 0 50px rgba(255, 0, 0, 0.15);
         }
 
-        .header h1 {
-            text-align: center; font-weight: 800; font-size: 28px; margin-bottom: 10px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+        .premium-header {
+            text-align: center;
+            font-weight: 900;
+            font-size: 34px;
+            margin-bottom: 10px;
+            background: linear-gradient(180deg, #ffffff 0%, #ff1f1f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(255, 31, 31, 0.4));
         }
 
         .urgent-note {
-            color: var(--accent-red); font-weight: 700; font-size: 14px;
-            display: block; text-align: center; margin-bottom: 20px; animation: pulse 1.5s infinite;
+            color: var(--accent-red); font-weight: 800; font-size: 15px;
+            display: block; text-align: center; margin-bottom: 20px;
+            animation: pulse 2s infinite;
         }
-        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.98); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
         .admin-display {
             background: rgba(255, 0, 0, 0.05); border: 1.5px dashed var(--primary);
             border-radius: 18px; padding: 15px; text-align: center; margin-bottom: 25px;
-            box-shadow: inset 0 0 10px rgba(255, 0, 0, 0.1);
+            cursor: pointer; transition: 0.3s;
         }
-        .admin-display b { font-size: 26px; display: block; letter-spacing: 3px; color: #fff; text-shadow: 0 0 10px var(--primary); }
+        .admin-display:hover { background: rgba(255, 0, 0, 0.1); transform: scale(1.02); }
+        .admin-display b { font-size: 32px; display: block; letter-spacing: 3px; color: #fff; text-shadow: 0 0 10px red; }
+        .admin-display span { color: #888; font-size: 14px; display: block; margin-top: 5px; }
 
-        label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; color: var(--primary); }
+        label { display: block; margin-bottom: 10px; font-size: 14px; font-weight: 700; color: var(--primary); }
         input, select {
             width: 100%; background: #000;
-            border: 1px solid #330000; border-radius: 14px;
-            padding: 14px; color: #fff; margin-bottom: 15px; box-sizing: border-box; font-size: 16px;
-            transition: 0.3s;
+            border: 1px solid #330000; border-radius: 16px;
+            padding: 16px; color: #fff; margin-bottom: 18px; box-sizing: border-box; font-size: 16px;
         }
-        input:focus, select:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 10px rgba(255, 0, 0, 0.2); }
 
-        .sub-label { display: block; font-size: 11px; color: var(--accent-red); margin-top: -10px; margin-bottom: 15px; }
+        .sub-label { display: block; font-size: 11px; color: var(--accent-red); margin-top: -12px; margin-bottom: 18px; font-weight: 600; }
 
-        .result-card { background: rgba(0, 0, 0, 0.5); padding: 15px; border-radius: 16px; text-align: center; margin-bottom: 20px; border: 1px solid rgba(255, 0, 0, 0.3); }
-        .result-amount { font-size: 22px; font-weight: 800; color: var(--success); text-shadow: 0 0 5px rgba(46, 213, 115, 0.4); }
+        .result-card { background: rgba(0, 255, 136, 0.05); padding: 20px; border-radius: 20px; text-align: center; margin-bottom: 25px; border: 1px solid rgba(0, 255, 136, 0.2); }
+        .result-amount { font-size: 26px; font-weight: 900; color: var(--success); }
 
         .btn-submit {
-            width: 100%; padding: 16px; background: linear-gradient(135deg, #7b0000, #ff0000);
-            border: none; border-radius: 16px; color: white; font-size: 18px; font-weight: 700; cursor: pointer; 
-            transition: 0.4s; box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2);
+            width: 100%; padding: 18px; background: linear-gradient(135deg, #8b0000, #ff0000);
+            border: none; border-radius: 18px; color: white; font-size: 19px; font-weight: 900; cursor: pointer; transition: 0.3s;
         }
-        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4); }
-        .btn-submit:disabled { background: #222; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-submit:disabled { background: #333; cursor: not-allowed; }
 
         #successModal {
             display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
@@ -80,26 +83,30 @@
         }
         .modal-card { 
             background: #111; color: #fff; width: 100%; max-width: 400px; 
-            padding: 25px; border-radius: 25px; text-align: center; border: 1px solid var(--primary);
+            padding: 30px; border-radius: 30px; text-align: center; border: 1px solid red;
         }
-        .modal-body { background: #000; border-radius: 15px; padding: 15px; margin-top: 10px; }
-        .modal-row { display: flex; justify-content: space-between; border-bottom: 1px dashed #333; padding: 10px 0; font-size: 14px; }
+        .modal-body { background: #000; border-radius: 20px; padding: 20px; margin-top: 15px; }
+        .modal-row { display: flex; justify-content: space-between; border-bottom: 1px dashed #333; padding: 12px 0; font-size: 14px; }
         .modal-row:last-child { border-bottom: none; }
-        .modal-row b { color: var(--primary); }
+        .modal-row b { color: red; }
 
-        .footer { text-align: center; margin-top: 25px; }
+        .footer { text-align: center; margin-top: 30px; }
         .support-link {
             display: inline-flex; align-items: center; background: #25d366;
-            color: #fff; text-decoration: none; padding: 12px 25px; border-radius: 12px; font-weight: 700;
+            color: #fff; text-decoration: none; padding: 12px 25px; border-radius: 15px; font-weight: 800;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header"><h1>Helmy Card – بوتا</h1></div>
+    <div class="header"><h1 class="premium-header">Helmy Card – بوتا</h1></div>
     <span class="urgent-note">يستغرق تأكيد التارجت وإرسال الأموال 24 ساعة</span>
-    <div class="admin-display"><b>888185</b><span>ID سحب بوتا 👆👆</span></div>
+    
+    <div class="admin-display" onclick="copyId('888185')">
+        <b id="adminId">888185</b>
+        <span>ID سحب بوتا 👆 (اضغط للنسخ)</span>
+    </div>
 
     <label>طريقة الاستلام</label>
     <select id="payment_method" onchange="calculate()">
@@ -133,10 +140,10 @@
 
 <div id="successModal">
     <div class="modal-card">
-        <div style="font-size: 40px; color: #2ed573;">✅</div>
-        <h2 style="margin: 5px 0;">تم إرسال الطلب بنجاح</h2>
+        <div style="font-size: 50px; color: #00ff88;">✅</div>
+        <h2 style="margin: 10px 0;">تم إرسال الطلب بنجاح</h2>
         <div class="modal-body" id="invoice-details"></div>
-        <button onclick="location.reload()" style="width:100%; padding:14px; background:var(--primary); color:#fff; border:none; border-radius:15px; margin-top:15px; cursor:pointer; font-weight:700;">تم الحفظ</button>
+        <button onclick="location.reload()" style="width:100%; padding:15px; background:#ff0000; color:#fff; border:none; border-radius:15px; margin-top:20px; cursor:pointer; font-weight:900;">تم الحفظ</button>
     </div>
 </div>
 
@@ -146,6 +153,12 @@
         "https://sheetdb.io/api/v1/w00q17tpeju22?sheet=بوتا",
         "https://sheetdb.io/api/v1/v8gs5rfhy1oae"
     ];
+
+    function copyId(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert("تم نسخ الـ ID: " + text);
+        });
+    }
 
     function calculate() {
         const method = document.getElementById('payment_method').value;
@@ -184,21 +197,7 @@
             
             const payload = { data: [{ "الأيدي": uid, "الدولار": usd + " $", "المصري": egp + " ج.م", "بيانات المحفظة": "'" + wallet, "اسم الوكيل": agent, "التاريخ": timestamp }] };
 
-            const telegramMsg = `📥 *طلب سحب بوتا جديد* 📥
-
-👤 *الأيدي:* \`${uid}\`
-
-💵 *المبلغ بالدولار:* ${usd} $
-
-🇪🇬 *المبلغ بالمصري:* ${egp} ج.م
-
-💳 *طريقة الاستلام:* ${methodText}
-
-📱 *رقم المحفظة:* \`${wallet}\`
-
-👤 *اسم الوكيل:* ${agent}
-
-⏰ *التوقيت:* ${timestamp}`;
+            const telegramMsg = `📥 *طلب سحب بوتا جديد* 📥\n\n👤 *الأيدي:* \`${uid}\`\n💵 *الدولار:* ${usd} $\n🇪🇬 *المصري:* ${egp} ج.م\n📱 *المحفظة:* \`${wallet}\`\n👤 *الوكيل:* ${agent}\n⏰ *التوقيت:* ${timestamp}`;
 
             await Promise.all([
                 ...DB_URLS.map(url => fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })),
@@ -211,10 +210,8 @@
             document.getElementById('invoice-details').innerHTML = `
                 <div class="modal-row"><span>👤 الأيدي:</span><b>${uid}</b></div>
                 <div class="modal-row"><span>💵 المبلغ بالدولار:</span><b>${usd} $</b></div>
-                <div class="modal-row"><span>🇪🇬 المبلغ بالمصري:</span><b style="color:#2ed573">${egp} ج.م</b></div>
+                <div class="modal-row"><span>🇪🇬 المبلغ بالمصري:</span><b>${egp} ج.م</b></div>
                 <div class="modal-row"><span>📱 رقم المحفظة:</span><b>${wallet}</b></div>
-                <div class="modal-row"><span>💳 الطريقة:</span><b>${methodText}</b></div>
-                <div class="modal-row"><span>👤 الوكيل:</span><b>${agent}</b></div>
                 <div class="modal-row"><span>⏰ التوقيت:</span><b>${timestamp}</b></div>
             `;
             document.getElementById('successModal').style.display = 'flex';
