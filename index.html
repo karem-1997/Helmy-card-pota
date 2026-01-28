@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helmy Card - بوتا الفاخر</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
+        
+        :root {
+            --primary: #00d2ff;
+            --secondary: #3a7bd5;
+            --bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --accent-red: #ff4757;
+            --success: #2ed573;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            color: #f1f5f9;
+            margin: 0;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; padding: 15px;
+        }
+
+        .container {
+            width: 100%; max-width: 450px;
+            background: var(--card-bg); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 30px;
+            padding: 30px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .header h1 {
+            text-align: center; font-weight: 800; font-size: 28px; margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .urgent-note {
+            color: var(--accent-red); font-weight: 700; font-size: 14px;
+            display: block; text-align: center; margin-bottom: 20px; animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+        .admin-display {
+            background: rgba(0, 210, 255, 0.1); border: 1.5px dashed var(--primary);
+            border-radius: 18px; padding: 15px; text-align: center; margin-bottom: 25px;
+        }
+        .admin-display b { font-size: 26px; display: block; letter-spacing: 3px; color: #fff; }
+
+        label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; color: var(--primary); }
+        input, select {
+            width: 100%; background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px;
+            padding: 14px; color: #fff; margin-bottom: 15px; box-sizing: border-box; font-size: 16px;
+        }
+
+        .sub-label { display: block; font-size: 11px; color: var(--accent-red); margin-top: -10px; margin-bottom: 15px; }
+
+        .result-card { background: rgba(46, 213, 115, 0.1); padding: 15px; border-radius: 16px; text-align: center; margin-bottom: 20px; border: 1px solid rgba(46, 213, 115, 0.3); }
+        .result-amount { font-size: 22px; font-weight: 800; color: var(--success); }
+
+        .btn-submit {
+            width: 100%; padding: 16px; background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none; border-radius: 16px; color: white; font-size: 18px; font-weight: 700; cursor: pointer; transition: 0.3s;
+        }
+        .btn-submit:disabled { background: #475569; cursor: not-allowed; }
+
+        #successModal {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            z-index: 9999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px);
+        }
+        .modal-card { 
+            background: #fff; color: #1e293b; width: 100%; max-width: 400px; 
+            padding: 25px; border-radius: 25px; text-align: center; 
+        }
+        .modal-body { background: #f8fafc; border-radius: 15px; padding: 15px; margin-top: 10px; }
+        .modal-row { display: flex; justify-content: space-between; border-bottom: 1px dashed #e2e8f0; padding: 10px 0; font-size: 14px; }
+        .modal-row:last-child { border-bottom: none; }
+        .modal-row b { color: #000; }
+
+        .footer { text-align: center; margin-top: 25px; }
+        .support-link {
+            display: inline-flex; align-items: center; background: #25d366;
+            color: #fff; text-decoration: none; padding: 12px 25px; border-radius: 12px; font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header"><h1>Helmy Card – بوتا</h1></div>
+    <span class="urgent-note">يستغرق تأكيد التارجت وإرسال الأموال 24 ساعة</span>
+    <div class="admin-display"><b>888185</b><span>ID سحب بوتا 👆👆</span></div>
+
+    <label>طريقة الاستلام</label>
+    <select id="payment_method" onchange="calculate()">
+        <option value="vodafone">فودافون كاش (44.50)</option>
+        <option value="orange">أورانج كاش (44.50)</option>
+        <option value="etisalat">اتصالات كاش (44.50)</option>
+        <option value="agent">كود الوكيل ف المنصه (45.00)</option>
+    </select>
+
+    <label>قيمة السحب بالدولار</label>
+    <input type="number" id="usd_input" placeholder="0.00" step="0.01" oninput="calculate()">
+
+    <label>الأيدي الي سحبت منو</label>
+    <input type="text" id="uid_input" placeholder="ادخل ID الأكونت">
+
+    <label>رقم المحفظة / كود الوكيل</label>
+    <input type="text" id="wallet_input" placeholder="01xxxxxxxxx أو الكود">
+    <span class="sub-label">اذا كان الرقم غير 010 يتم خصم عمولة التحويل تلقائياً.</span>
+
+    <label>اسم الوكيل (اختياري)</label>
+    <input type="text" id="agent_name" placeholder="ادخل اسم الوكيل">
+
+    <div class="result-card"><div class="result-amount" id="egp_display">0.00 ج.م</div></div>
+
+    <button class="btn-submit" onclick="processWithdrawal()" id="btnText">إرسال الطلب الآن 🚀</button>
+
+    <div class="footer">
+        <a href="https://wa.me/201211511517" class="support-link" target="_blank">💬 خدمة العملاء</a>
+    </div>
+</div>
+
+<div id="successModal">
+    <div class="modal-card">
+        <div style="font-size: 40px; color: #2ed573;">✅</div>
+        <h2 style="margin: 5px 0;">تم إرسال الطلب بنجاح</h2>
+        <div class="modal-body" id="invoice-details"></div>
+        <button onclick="location.reload()" style="width:100%; padding:14px; background:#0f172a; color:#fff; border:none; border-radius:15px; margin-top:15px; cursor:pointer; font-weight:700;">تم الحفظ</button>
+    </div>
+</div>
+
+<script>
+    const DB_URLS = [
+        "https://sheetdb.io/api/v1/ba4uuazm9ncy3",
+        "https://sheetdb.io/api/v1/w00q17tpeju22?sheet=بوتا",
+        "https://sheetdb.io/api/v1/v8gs5rfhy1oae"
+    ];
+
+    function calculate() {
+        const method = document.getElementById('payment_method').value;
+        const rate = (method === 'agent') ? 45.00 : 44.50;
+        const usd = parseFloat(document.getElementById('usd_input').value) || 0;
+        const egp = (usd * rate).toFixed(2);
+        document.getElementById('egp_display').innerText = egp + " ج.م";
+        return { usd, egp, methodText: document.getElementById('payment_method').options[document.getElementById('payment_method').selectedIndex].text };
+    }
+
+    async function processWithdrawal() {
+        const uid = document.getElementById('uid_input').value.trim();
+        const wallet = document.getElementById('wallet_input').value.trim();
+        const usdVal = document.getElementById('usd_input').value;
+        const agent = document.getElementById('agent_name').value.trim() || "غير محدد";
+        const btn = document.getElementById('btnText');
+
+        if (!uid || !wallet || !usdVal) { alert("⚠️ أكمل البيانات المطلوبة"); return; }
+
+        btn.disabled = true;
+        btn.innerText = "جاري التحقق...";
+
+        try {
+            const fetchPromises = DB_URLS.map(url => fetch(url).then(res => res.json()));
+            const results = await Promise.all(fetchPromises);
+            const allRecords = results.flat();
+
+            if (allRecords.some(row => String(row["الأيدي"]).trim() === uid)) {
+                alert("❌ هذا الأيدي مسجل مسبقاً في السجلات.");
+                btn.disabled = false; btn.innerText = "إرسال الطلب الآن 🚀";
+                return;
+            }
+
+            const { usd, egp, methodText } = calculate();
+            const timestamp = new Date().toLocaleString('ar-EG');
+            
+            const payload = { data: [{ "الأيدي": uid, "الدولار": usd + " $", "المصري": egp + " ج.م", "بيانات المحفظة": "'" + wallet, "اسم الوكيل": agent, "التاريخ": timestamp }] };
+
+            const telegramMsg = `📥 *طلب سحب بوتا جديد* 📥
+
+👤 *الأيدي:* \`${uid}\`
+
+💵 *المبلغ بالدولار:* ${usd} $
+
+🇪🇬 *المبلغ بالمصري:* ${egp} ج.م
+
+💳 *طريقة الاستلام:* ${methodText}
+
+📱 *رقم المحفظة:* \`${wallet}\`
+
+👤 *اسم الوكيل:* ${agent}
+
+⏰ *التوقيت:* ${timestamp}`;
+
+            await Promise.all([
+                ...DB_URLS.map(url => fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })),
+                fetch(`https://api.telegram.org/bot8476254137:AAHmKi2eJCBhAFv_IdE0J312NLAr17LZmQ0/sendMessage`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: "7054064246", text: telegramMsg, parse_mode: 'Markdown' })
+                })
+            ]);
+
+            document.getElementById('invoice-details').innerHTML = `
+                <div class="modal-row"><span>👤 الأيدي:</span><b>${uid}</b></div>
+                <div class="modal-row"><span>💵 المبلغ بالدولار:</span><b>${usd} $</b></div>
+                <div class="modal-row"><span>🇪🇬 المبلغ بالمصري:</span><b style="color:#2ed573">${egp} ج.م</b></div>
+                <div class="modal-row"><span>📱 رقم المحفظة:</span><b>${wallet}</b></div>
+                <div class="modal-row"><span>💳 الطريقة:</span><b>${methodText}</b></div>
+                <div class="modal-row"><span>👤 الوكيل:</span><b>${agent}</b></div>
+                <div class="modal-row"><span>⏰ التوقيت:</span><b>${timestamp}</b></div>
+            `;
+            document.getElementById('successModal').style.display = 'flex';
+
+        } catch (e) {
+            alert("❌ فشل الإرسال");
+            btn.disabled = false; btn.innerText = "إرسال الطلب الآن 🚀";
+        }
+    }
+</script>
+</body>
+</html>
